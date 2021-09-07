@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-
 namespace Peak.Test
 {
     public class RequestMessage
@@ -9,7 +7,7 @@ namespace Peak.Test
         public int Prop1 { get; set; }
         public string Prop2 { get; set; }
         public DateTime Prop3 { get; set; }
-        public Dictionary<string, object> Items { get; set; } = new Dictionary<string, object>();
+        private Dictionary<string, object> Items { get; set; } = new Dictionary<string, object>();
 
         public TReturnType Get<TReturnType>()
         {

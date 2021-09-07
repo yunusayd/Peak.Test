@@ -1,7 +1,4 @@
 ﻿using Peak.Test.Interfaces;
-using System;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Peak.Test
 {

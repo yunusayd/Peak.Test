@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Moq;
-using Peak.Test.Tests.Mocks;
 
 namespace Peak.Test.Tests
 {

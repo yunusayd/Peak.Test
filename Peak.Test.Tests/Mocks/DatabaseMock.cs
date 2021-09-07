@@ -4,9 +4,6 @@ using Peak.Test.Interfaces;
 
 namespace Peak.Test.Tests.Mocks
 {
-    /// <summary>
-    /// Mocku ortak bi class yaptım. İçerde sürekli setupla uğraşma. Burda bi kere setup yap, içerde istediğin kadar kullan.
-    /// </summary>
     public class DatabaseMock : MockBase<IDatabase>
     {
         public void ReturnValueOnExecuteNonQuery(int value)

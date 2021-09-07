@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoFixture;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Peak.Test.Interfaces;
 using Peak.Test.Tests.Mocks;
 
 namespace Peak.Test.Tests
@@ -28,12 +23,20 @@ namespace Peak.Test.Tests
         [TestMethod]
         public void ERecordCtorInsertShouldWork()
         {
+            // Setup
             var str = Fixture.Create<string>();
             var intVal = Fixture.Create<int>();
             var dtVal = Fixture.Create<DateTime>();
             _databaseMock.ReturnValueOnExecuteNonQuery(1);
             var dto = new Dto(str, intVal, dtVal);
-            var ds = _record.Insert(dto);
+            
+            // Act
+            var res = _record.Insert(dto);
+            
+            //Asset
+            Assert.AreEqual(res.PropInt, intVal);
+            Assert.AreEqual(res.PropStr, str);
+            Assert.AreEqual(res.PropDateTime, dtVal);
         }
 
         [TestMethod]

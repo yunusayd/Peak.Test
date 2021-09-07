@@ -31,8 +31,6 @@ namespace Peak.Test.Tests
             var reqDto = Fixture.Create<Dto>();
             req.Add(reqDto);
 
-            var rspDto = (Dto) reqDto.Clone();
-            
             // Act
             var response = _service.InsertReport(req);
             var rowId = response.Get<Dto>().RowId = Fixture.Create<int>();

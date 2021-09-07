@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using Moq;
-using Peak.Test.Interfaces;
 
 namespace Peak.Test.Tests.Mocks
 {
