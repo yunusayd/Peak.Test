@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoFixture;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Peak.Test.Interfaces;
@@ -10,13 +7,13 @@ using Peak.Test.Interfaces;
 namespace Peak.Test.Tests
 {
     [TestClass]
-    public class ClientTest
+    public class ClientTest : TestBase
     {
-        public Client GetClient(DTO moqDTO)
+        private Client GetClient(Dto moqDto)
         {
             var moqRsp = new ResponseMessage();
-            moqRsp.Add(moqDTO);
-            
+            moqRsp.Add(moqDto);
+
             var moqService = new Mock<IService>();
             moqService.Setup(x => x.InsertReport(It.IsAny<RequestMessage>())).Returns(moqRsp);
 
@@ -26,15 +23,24 @@ namespace Peak.Test.Tests
             var client = new Client(moqProxy.Object);
             return client;
         }
+
         [TestMethod]
-        public void ExecuteWithParamsTest()
+        public void ExecuteWithParamsShouldWork()
         {
-            var moqDTO = new DTO("yoda", 42, DateTime.Now);
-            var client = GetClient(moqDTO);
-            client.Execute(moqDTO.PropInt, moqDTO.PropDateTime, moqDTO.PropStr);
-            Assert.AreEqual(client.PropInt, moqDTO.PropInt);
-            Assert.AreEqual(client.PropStr, moqDTO.PropStr);
-            Assert.AreEqual(client.PropDateTime, moqDTO.PropDateTime);
+            // Setup
+            var str = Fixture.Create<string>();
+            var intProp = Fixture.Create<int>();
+            var now = Fixture.Create<DateTime>();
+            var moqDto = new Dto(str, intProp,now);
+            var client = GetClient(moqDto);
+            
+            // Act
+            client.Execute(moqDto.PropInt, moqDto.PropDateTime, moqDto.PropStr);
+            
+            // Assert
+            Assert.AreEqual(client.PropInt, moqDto.PropInt);
+            Assert.AreEqual(client.PropStr, moqDto.PropStr);
+            Assert.AreEqual(client.PropDateTime, moqDto.PropDateTime);
         }
     }
 }

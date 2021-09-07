@@ -16,7 +16,7 @@ namespace Peak.Test
         public ResponseMessage InsertReport(RequestMessage requestMessage)
         {
             var eReport = new ERecord(this.Database);
-            var reqReport = requestMessage.Get<DTO>();
+            var reqReport = requestMessage.Get<Dto>();
             var dtoReport = eReport.Insert(reqReport);
             var responseMessage = new ResponseMessage();
             responseMessage.Add(dtoReport);

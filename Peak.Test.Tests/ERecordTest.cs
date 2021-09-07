@@ -19,9 +19,6 @@ namespace Peak.Test.Tests
         private readonly DatabaseMock _databaseMock;
         private readonly ERecord _record;
         
-        /// <summary>
-        /// Her test öncesi constructor çağırılıyor. 
-        /// </summary>
         public ERecordTest()
         {
             _databaseMock = new DatabaseMock();
@@ -29,13 +26,13 @@ namespace Peak.Test.Tests
         }
         
         [TestMethod]
-        public void ERecordCtorInsertShouldWord()
+        public void ERecordCtorInsertShouldWork()
         {
             var str = Fixture.Create<string>();
             var intVal = Fixture.Create<int>();
             var dtVal = Fixture.Create<DateTime>();
             _databaseMock.ReturnValueOnExecuteNonQuery(1);
-            var dto = new DTO(str, intVal, dtVal);
+            var dto = new Dto(str, intVal, dtVal);
             var ds = _record.Insert(dto);
         }
 
@@ -43,7 +40,6 @@ namespace Peak.Test.Tests
         public void ERecordListShouldWork()
         {
             //Setup
-            //Fixture inanılmaz güzel bir olay abi. İstediğin gibi Obje yaratabiliyor arkadas. 
             var str = Fixture.Create<string>();
             var intVal = Fixture.Create<int>();
             var dtVal = Fixture.Create<DateTime>();
@@ -59,10 +55,7 @@ namespace Peak.Test.Tests
             Assert.AreEqual(list[0].PropInt, intVal);
             Assert.AreEqual(list[0].PropDateTime, dtVal);
             
-            //Bir kez çağırılmış olmalı testi
             _databaseMock.Mock.Verify(a => a.ExecuteDataSet(It.IsAny<SqlCommand>()), Times.Once()); 
-            
-            //Bu parametre ile bir kez çağırılmış olmalı testi
             _databaseMock.Mock.Verify(a => a.ExecuteDataSet(It.Is<SqlCommand>(sqlCommand => sqlCommand.CommandText == "DATA_I_ROW")), Times.Once()); 
         }
 

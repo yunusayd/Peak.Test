@@ -9,7 +9,7 @@ namespace Peak.Test
 {
     public class Client
     {
-        public IProxy Proxy { get; set; }
+        private IProxy Proxy { get; set; }
 
         public Client(IProxy proxy)
         {
@@ -28,15 +28,15 @@ namespace Peak.Test
             
             var service = this.Proxy.GetService();
             var reqMessage = new RequestMessage();
-            reqMessage.Add(new DTO(str, val, dt));
+            reqMessage.Add(new Dto(str, val, dt));
             var response = service.InsertReport(new RequestMessage());
-            PropInt = response.Get<DTO>().PropInt;
-            PropStr = response.Get<DTO>().PropStr;
-            PropDateTime = response.Get<DTO>().PropDateTime;
+            PropInt = response.Get<Dto>().PropInt;
+            PropStr = response.Get<Dto>().PropStr;
+            PropDateTime = response.Get<Dto>().PropDateTime;
         }
 
-        public DateTime PropDateTime { get; set; }
-        public string PropStr { get; set; }
-        public int PropInt { get; set; }
+        public DateTime PropDateTime { get; private set; }
+        public string PropStr { get; private set; }
+        public int PropInt { get; private set; }
     }
 }

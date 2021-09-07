@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientTest.cs" />
-    <Compile Include="DTOTest.cs" />
+    <Compile Include="DtoTest.cs" />
     <Compile Include="DatabaseTest.cs" />
     <Compile Include="ERecordTest.cs" />
     <Compile Include="Mocks\DatabaseMock.cs" />

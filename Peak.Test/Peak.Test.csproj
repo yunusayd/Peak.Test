@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\IBaseEntity.cs" />
     <Compile Include="Client.cs" />
-    <Compile Include="DTO.cs" />
+    <Compile Include="Dto.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="ERecord.cs" />
     <Compile Include="Interfaces\IDatabase.cs" />
