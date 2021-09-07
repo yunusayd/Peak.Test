@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Peak.App.DataAccess;
-using Peak.App.DataAccess.Projection;
-using Peak.App.Entity;
 using Peak.Test.Interfaces;
 
 namespace Peak.Test

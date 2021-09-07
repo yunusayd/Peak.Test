@@ -21,10 +21,9 @@ namespace Peak.Test.Tests
         [TestMethod]
         public void GetService()
         {
-            var moqService = new Mock<IService>();
-            var moqDB = new Mock<IDatabase>();
+            var moqDb = new Mock<IDatabase>();
             var proxy = new Proxy();
-            Assert.AreEqual(proxy.GetService().GetType().FullName, new Service(moqDB.Object).GetType().FullName);
+            Assert.AreEqual(proxy.GetService().GetType().FullName, new Service(moqDb.Object).GetType().FullName);
         }
     }
 }

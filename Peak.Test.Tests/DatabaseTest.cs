@@ -5,30 +5,62 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Moq;
 using Peak.Test.Interfaces;
+using Peak.Test.Tests.Mocks;
 
 namespace Peak.Test.Tests
 {
     [TestClass]
-    public class DatabaseTest
+    public class DatabaseTest : TestBase
     {
+        private Database _database;
+        private DbCommandMock _dbCommandMock;
+        
+        public DatabaseTest()
+        {
+            _dbCommandMock = new DbCommandMock();
+            _database = new Database();
+        }
+        
+        [TestMethod]
+        public void ExecuteNonQueryShouldThrowOnNullInput()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => _database.ExecuteNonQuery(null));
+        }
+        
         [TestMethod]
         public void ExecuteNonQueryTest()
         {
-            IDatabase database = new Database();
-            var moqSQLCommand = new Mock<IDbCommand>();
-            moqSQLCommand.Setup(x => x.ExecuteNonQuery()).Returns(1);
+            //Burda setup, act ve assertleri ayırdım.
+            //Bu şekilde daha sonradan daha okunabilir oluyor.
+            //Diğerlerinde de yapılabilir.
             
-            Assert.ThrowsException<ArgumentNullException>(() => database.ExecuteNonQuery(null));
-            Assert.AreEqual(database.ExecuteNonQuery(new SqlCommand()), 1);
+            //Setup
+            _dbCommandMock.ReturnValueOnExecuteNonQuery(1);
+            
+            //Act
+            var result = _database.ExecuteNonQuery(new SqlCommand());
+            
+            //Assert
+            Assert.AreEqual(result, 1);
         }
 
+        /// <summary>
+        /// Abi bu iki ayrı test, biri throw exception testi, diğeri doğru data donme testi.
+        /// </summary>
         [TestMethod]
-        public void ExecuteDataSetTest()
+        public void ExecuteDataSetThrowsExceptionOnNullInput()
         {
-            IDatabase database = new Database();
-            //null test
-            Assert.ThrowsException<ArgumentNullException>(() => database.ExecuteDataSet(null));
-            
+            //Assert
+            Assert.ThrowsException<ArgumentNullException>(() => _database.ExecuteDataSet(null));
+            _dbCommandMock.Mock.Verify(a => a.ExecuteReader(), Times.Never); // ExecuteReader hiç çağırılmamış olması lazım bu durumda
+        }
+        
+        /// <summary>
+        /// Burdaki olayı tam anlayamadım :'(
+        /// </summary>
+        [TestMethod]
+        public void ExecuteDataSetShouldReturnCorrectData()
+        {
             // var mockedDataReader = new Mock<IDataReader>();
             // bool readFlag = true;
             //

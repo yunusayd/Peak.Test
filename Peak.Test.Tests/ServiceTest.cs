@@ -4,15 +4,25 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoFixture;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Peak.Test.Interfaces;
+using Peak.Test.Tests.Mocks;
 
 namespace Peak.Test.Tests
 {
     [TestClass]
-    public class ServiceTest
+    public class ServiceTest : TestBase
     {
+        private readonly DatabaseMock _databaseMock;
+        private readonly Service _service;
+        public ServiceTest()
+        {
+            _databaseMock = new DatabaseMock();
+            _service = new Service(_databaseMock.Object);
+        }
+        
         [TestInitialize]
         public void Setup()
         {
@@ -22,29 +32,24 @@ namespace Peak.Test.Tests
         [TestMethod]
         public void ServiceCtorTest()
         {
-            var moqDB = new Mock<IDatabase>();
-            var service = new Service(moqDB.Object);
-            Assert.AreEqual(service.Database, moqDB.Object);
+            Assert.AreEqual(_service.Database, _databaseMock.Object);
         }
 
         [TestMethod]
         public void ServiceInsertTest()
         {
-            var moqDB = new Mock<IDatabase>();
-            moqDB.Setup(x => x.ExecuteNonQuery(It.IsAny<SqlCommand>())).Returns(1);
-            var service = new Service(moqDB.Object);
-
+            _databaseMock.ReturnValueOnExecuteNonQuery(1);
             var req = new RequestMessage();
-            var reqDTO = new DTO("yoda", 42, DateTime.Now);
-            req.Add(reqDTO);
+            var reqDto = Fixture.Create<DTO>();
+            req.Add(reqDto);
 
-            var rspDTO = (DTO)reqDTO.Clone();
+            var rspDTO = (DTO)reqDto.Clone();
             rspDTO.RowId = 5;
             
             var rsp = new ResponseMessage();
             rsp.Add(rspDTO);
 
-            var response = service.InsertReport(req);
+            var response = _service.InsertReport(req);
             Assert.AreEqual(response.Get<DTO>(), req.Get<DTO>());
         }
     }

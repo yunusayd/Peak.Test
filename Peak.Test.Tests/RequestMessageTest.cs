@@ -9,14 +9,16 @@ namespace Peak.Test.Tests
         [TestMethod]
         public void RequestMessagePropTest()
         {
-            var req = new RequestMessage();
-            req.Prop1 = 1;
-            req.Prop2 = "A";
+            var req = new RequestMessage
+            {
+                Prop1 = 1,
+                Prop2 = "A"
+            };
             var now = req.Prop3 = DateTime.Now;
             var dto = new DTO("Str", 42, now);
             req.Add(dto);
             
-            
+            //Bu Assertleri hiç anlamaıdm. Önce set etmişsin req e sonra aynı mı demişsin :S
             Assert.AreEqual(req.Prop1, 1);
             Assert.AreEqual(req.Prop2, "A");
             Assert.AreEqual(req.Prop3, now);
